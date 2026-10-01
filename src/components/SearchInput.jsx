@@ -1,8 +1,8 @@
-export default function SearchInput() {
+export default function SearchInput({searchInput, placeholder, setSearchInput}) {
     return ( 
         <div>
             <i className="fa-solid fa-magnifying-glass"></i>
-            <input placeholder="Search a city or place"></input>
+            <input value={searchInput} placeholder={placeholder} onChange={(e) => setSearchInput(e.target.value)}/>
         </div>
     )
 }
