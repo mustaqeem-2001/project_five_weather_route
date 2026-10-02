@@ -7,12 +7,30 @@ import Header from "./components/Header.jsx";
 import DetailedPrice from "./pages/DetailedPlace.jsx";
 import Search from "./pages/search/Search.jsx";
 import Collection from "./pages/collection/Collection.jsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Root() {
   const [ searchInput, setSearchInput ] = useState("");
   const placeholder = "Search a city or place";
+  const [initialPlaces, setInitialPlaces] = useState([])
 
+
+  useEffect(() => {
+    fetch(`https://geocoding-api.open-meteo.com/v1/search?name=london&count=10&language=en&format=json`)
+      .then(res => res.json())
+      .then(data => setInitialPlaces(prev => [...prev, data.results[0]]));
+    fetch(`https://geocoding-api.open-meteo.com/v1/search?name=tokyo&count=10&language=en&format=json`)
+      .then(res => res.json())
+      .then(data => setInitialPlaces(prev => [...prev, data.results[0]]));
+    fetch(`https://geocoding-api.open-meteo.com/v1/search?name=reykjavik&count=10&language=en&format=json`)
+      .then(res => res.json())
+      .then(data => setInitialPlaces(prev => [...prev, data.results[0]]));
+  }, [])
+  
+
+  console.log(initialPlaces);
+
+  
   console.log(searchInput);
   return (
     <BrowserRouter>

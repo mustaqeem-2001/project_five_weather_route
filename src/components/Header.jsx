@@ -14,7 +14,7 @@ export default function Header() {
     return (
         <header>
             <i className="fa-solid fa-cloud-sun"></i>
-            <h1>weatherroute</h1>
+            <span>weather</span><span>route</span>
             {headerConfig[location.pathname]}
         </header>
     )
