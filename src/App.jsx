@@ -2,35 +2,48 @@ import { useEffect, useState } from "react";
 import SearchInput from "./components/SearchInput";
 import { Link } from "react-router-dom";
 
-export default function App({searchInput, setSearchInput, placeholder}) {
-  const [places, setPlaces] = useState([])
+export default function App({searchInput, setSearchInput, placeholder, places, setPlaces, loading, setLoading}) {
+    const cities = [
+    {
+      id: 2643743,
+      name: "London",
+      latitude: 51.50853,
+      longitude: -0.12574
+    },
+    {
+      id: 1850147,
+      name: "Tokyo",
+      latitude: 35.6895,
+      longitude: 139.69171
+    },
+    {
+      id: 3413829,
+      name: "Reykjavik",
+      latitude: 64.13548,
+      longitude: -21.89541
+    }
+  ];
+
 
   useEffect(function() {
     setSearchInput("");
-
-    const cities = ["London", "Tokyo", "Reykjavik"];
-    
+    setLoading(true);
     Promise.all(
       cities.map((city) => {
-        return fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=10&language=en&format=json`)
-          .then(res => res.json())
-          .then(data => {
-            const location = data.results[0];
-
-            return fetch(`https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&current=temperature_2m`)
+            return fetch(`https://api.open-meteo.com/v1/forecast?latitude=${city.latitude}&longitude=${city.longitude}&current=temperature_2m`)
               .then(res => res.json())
               .then(data => {
                 return {
-                  ...location,
+                  ...city,
                   temperature: data.current.temperature_2m
                 }
-              })
-          });
+              });
       })
-    ).then(result => setPlaces(result));
+    ).then(result => {
+      setPlaces(result)
+      setLoading(false);
+    });
   }, [])
-
-  console.log(places);
 
   return (
     <main>
@@ -62,6 +75,9 @@ export default function App({searchInput, setSearchInput, placeholder}) {
         </div>
         <div>
           {
+            loading ?
+            <p>loading...</p>
+            :
             places.map(function(place) {
               return <div key={place.id}>
                   <i className="fa-solid fa-cloud-sun"></i>
