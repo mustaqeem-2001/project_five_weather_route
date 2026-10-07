@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function({places, determineSize}) {
      return places.map(function(place) {
         return (
@@ -11,10 +13,10 @@ export default function({places, determineSize}) {
                 <br />
                 <div>
                     <span>{determineSize(place.feature_code)} · {place.country_code}</span>
-                    <span>
+                    <Link to={`/detailedPlace/${place.id}`}>
                         Open forecast 
                         <i className="fa-solid fa-arrow-right"></i>
-                    </span>
+                    </Link>
                 </div>
             </div>
             )

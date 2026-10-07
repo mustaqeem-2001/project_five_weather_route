@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import SearchInput from "../../components/SearchInput";
 import { Link } from "react-router-dom";
 import SearchError from "./SearchError";
@@ -6,10 +6,39 @@ import SearchNoneFound from "./SearchNoneFound";
 import SearchLoading from "./SearchLoading";
 import Places from "./Places.jsx";
 
+
 export default function Search({searchInput, setSearchInput, placeholder, loading, setLoading, places, setPlaces}) {
     const [error, setError ] = useState(null);
-    const [emptyResult, setEmptyResult ] = useState(null);
-    const firstRender = useRef(true);
+    const [emptyResult, setEmptyResult ] = useState(null); // When the user enters something but no match found.
+
+    useEffect(() => {
+        if (emptyResult === true) {
+            setEmptyResult(false);
+        }
+        handleRequest(searchInput);
+    }, [searchInput])
+
+    async function handleRequest(input) {
+        setLoading(true);
+        try {
+            const request = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${input}&count=10&language=en&format=json`);
+            const data = await request.json();
+            
+            if (data?.results) {
+                setPlaces(data.results);
+            }
+            else {
+                setEmptyResult(true);
+                setPlaces([]);
+            }
+            
+        } catch(error) {
+            setError(true);
+        }
+        finally {
+            setLoading(false);
+        }
+    }
 
     function determineSize(feature_code) {
         const sizes = {
@@ -20,29 +49,11 @@ export default function Search({searchInput, setSearchInput, placeholder, loadin
         return sizes[feature_code];
     }
 
-    useEffect(() => {
-        if (firstRender.current) {
-            firstRender.current = false;
-            return;
-        }
-        setEmptyResult(false);
-        setLoading(true)
-        fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${searchInput}&count=10&language=en&format=json`)
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                if (data?.results) {
-                    setPlaces(data.results);
-                }
-                else {
-                    setEmptyResult(true);
-                }
-                setLoading(false);
-            });
-    }, [searchInput])
-        // Try useRef to deal with initial render for useEffect, this is causing the else statement to run straight away
-        // since no data exists at initial render.
-    
+    function handleTryAgain() {
+        setSearchInput("");
+        setError(false);
+    }
+
     return ( 
         <main>
             <Link to="/">
@@ -50,7 +61,7 @@ export default function Search({searchInput, setSearchInput, placeholder, loadin
                 Home
             </Link>
             <h2>Choose a {searchInput}</h2>
-            <p>{places?.length} places match your search.</p>
+            <p>{places.length} places match your search.</p>
             <SearchInput searchInput={searchInput} setSearchInput={setSearchInput} placeholder={placeholder} />
 
             <section>
@@ -64,7 +75,23 @@ export default function Search({searchInput, setSearchInput, placeholder, loadin
                         loading ?
                             <h1>Loading</h1>
                         : error ? 
-                            <h1>Error</h1>
+                            <div>
+                                <div>
+                                    <i className="fa-solid fa-bug-slash"></i>
+                                </div>
+                                <h1>FORECAST UNAVAILABLE</h1>
+                                <p>Can't reach the skies</p>
+                                <p>We couldn't connect to the weather service. Your search is still here - try again when your connection is ready.</p>
+                                <div>
+                                    <h3>YOUR SEARCH</h3>
+                                    <span>London</span><span>· United kingdom</span>
+                                </div>
+                                <button onClick={handleTryAgain}>
+                                    <i className="fa-solid fa-arrows-rotate"></i>
+                                    Try again</button>
+                            </div>
+                        : searchInput.length === 0 ?
+                            <h2>Start typing....</h2>
                         : emptyResult ?
                             <div>
                                 <div>
@@ -86,8 +113,9 @@ export default function Search({searchInput, setSearchInput, placeholder, loadin
                                     <i className="fa-solid fa-magnifying-glass"></i>
                                     Search again
                                 </button>
-                            </div>
-                        : places ?
+                            </div> 
+                        :
+                        places ?
                             <Places places={places} determineSize={determineSize}/>
                         :
                         <p>Start searching for a show</p>
