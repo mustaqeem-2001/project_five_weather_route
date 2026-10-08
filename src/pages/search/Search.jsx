@@ -7,19 +7,14 @@ import SearchLoading from "./SearchLoading";
 import Places from "./Places.jsx";
 
 
-export default function Search({searchInput, setSearchInput, placeholder, loading, setLoading, places, setPlaces}) {
-    const [error, setError ] = useState(null);
-    const [emptyResult, setEmptyResult ] = useState(null); // When the user enters something but no match found.
+export default function Search({searchInput, setSearchInput, placeholder, status, setStatus, setLoading, places, setPlaces}) {
 
     useEffect(() => {
-        if (emptyResult === true) {
-            setEmptyResult(false);
-        }
         handleRequest(searchInput);
     }, [searchInput])
 
     async function handleRequest(input) {
-        setLoading(true);
+        setStatus("loading");
         try {
             const request = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${input}&count=10&language=en&format=json`);
             const data = await request.json();
@@ -28,16 +23,16 @@ export default function Search({searchInput, setSearchInput, placeholder, loadin
                 setPlaces(data.results);
             }
             else {
-                setEmptyResult(true);
+                setStatus("empty");
                 setPlaces([]);
             }
             
         } catch(error) {
-            setError(true);
+            setStatus("error");
         }
-        finally {
-            setLoading(false);
-        }
+        // finally {
+        //     setStatus()
+        // }
     }
 
     function determineSize(feature_code) {
@@ -51,7 +46,6 @@ export default function Search({searchInput, setSearchInput, placeholder, loadin
 
     function handleTryAgain() {
         setSearchInput("");
-        setError(false);
     }
 
     return ( 
@@ -72,50 +66,16 @@ export default function Search({searchInput, setSearchInput, placeholder, loadin
                 </span>
                 <div>
                     { 
-                        loading ?
-                            <h1>Loading</h1>
-                        : error ? 
-                            <div>
-                                <div>
-                                    <i className="fa-solid fa-bug-slash"></i>
-                                </div>
-                                <h1>FORECAST UNAVAILABLE</h1>
-                                <p>Can't reach the skies</p>
-                                <p>We couldn't connect to the weather service. Your search is still here - try again when your connection is ready.</p>
-                                <div>
-                                    <h3>YOUR SEARCH</h3>
-                                    <span>London</span><span>· United kingdom</span>
-                                </div>
-                                <button onClick={handleTryAgain}>
-                                    <i className="fa-solid fa-arrows-rotate"></i>
-                                    Try again</button>
-                            </div>
-                        : searchInput.length === 0 ?
+                        status === "loading" ?
+                            <SearchLoading />
+                        : status === "error" ? 
+                            <SearchError handleTryAgain={handleTryAgain}/>
+                        : status === "idle" ?
                             <h2>Start typing....</h2>
-                        : emptyResult ?
-                            <div>
-                                <div>
-                                    <i className="fa-solid fa-magnifying-glass">
-                                        <i className="fa-solid fa-circle-xmark"></i>
-                                    </i>
-                                </div>
-                                <p>A SUCCESSFUL SEARCH</p>
-                                <h2>Nothing matched that name</h2>
-                                <p>Try another city or check the spelling. We'll look across the locations worldwide.</p>
-                                <div>
-                                    <i className="fa-solid fa-location-dot"></i>
-                                    <div>
-                                        <p>Try a nearby city</p>
-                                        <p>A place people can visit</p>
-                                    </div>
-                                </div>
-                                <button onClick={() => setSearchInput("")}>
-                                    <i className="fa-solid fa-magnifying-glass"></i>
-                                    Search again
-                                </button>
-                            </div> 
+                        : status === "empty" ?
+                            <SearchNoneFound handleTryAgain={handleTryAgain}/>
                         :
-                        places ?
+                        status === "success" ?
                             <Places places={places} determineSize={determineSize}/>
                         :
                         <p>Start searching for a show</p>

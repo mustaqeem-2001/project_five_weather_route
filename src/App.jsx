@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import SearchInput from "./components/SearchInput";
 import { Link } from "react-router-dom";
 
-export default function App({searchInput, setSearchInput, placeholder, places, setPlaces, loading, setLoading}) {
+export default function App({searchInput, setSearchInput, placeholder, places, setPlaces, status, setStatus}) {
     const cities = [
     {
       id: 2643743,
@@ -27,7 +27,7 @@ export default function App({searchInput, setSearchInput, placeholder, places, s
 
   useEffect(function() {
     setSearchInput("");
-    setLoading(true);
+    setStatus("loading");
     Promise.all(
       cities.map((city) => {
             return fetch(`https://api.open-meteo.com/v1/forecast?latitude=${city.latitude}&longitude=${city.longitude}&current=temperature_2m`)

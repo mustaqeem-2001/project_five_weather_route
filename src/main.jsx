@@ -14,14 +14,16 @@ function Root() {
   const [loading, setLoading ] = useState(false);
   const placeholder = "Search a city or place";  
   const [places, setPlaces] = useState([])
+  const [status, setStatus ] = useState("idle");
+
 
   return (
     <BrowserRouter>
-        <Header/>
+        <Header status={status}/>
         <Routes>
-          <Route path="/" element={<App loading={loading} setLoading={setLoading} setPlaces={setPlaces} places={places} searchInput={searchInput} setSearchInput={setSearchInput} placeholder={placeholder} />}/>
-          <Route path="/search" element={<Search loading={loading} setLoading={setLoading} setPlaces={setPlaces} places={places} searchInput={searchInput} setSearchInput={setSearchInput} placeholder={placeholder}/>}/>
-          <Route path="/collection" element={<Collection />}/>
+          <Route path="/" element={<App status={status} setLoading={setLoading} setPlaces={setPlaces} places={places} searchInput={searchInput} setSearchInput={setSearchInput} placeholder={placeholder} />}/>
+          <Route path="/search" element={<Search status={status} setStatus={setStatus} setLoading={setLoading} setPlaces={setPlaces} places={places} searchInput={searchInput} setSearchInput={setSearchInput} placeholder={placeholder}/>}/>
+          <Route path="/collection" element={<Collection status={status} />}/>
           <Route path="/detailedPlace/:id" element={<DetailedPlace />} />
         </Routes>
 
