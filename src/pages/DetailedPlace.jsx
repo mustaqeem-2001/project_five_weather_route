@@ -7,12 +7,15 @@ export default function DetailedPlace() {
   const { state } = useLocation();
   const currentTime = new Date().toLocaleTimeString();
 
-  const [saveToCollection, setSaveToCollection] = useState( () => {
+  const [saveToCollection, setSaveToCollection] = useState(() => {
     const collectionStorage = localStorage.getItem("collection");
-    return collectionStorage ? JSON.parse(collectionStorage) : null;
-  });
+    return collectionStorage ? JSON.parse(collectionStorage) : [];
+});
   
-  const placeExistsAlready = saveToCollection ? true : false
+  const placeExistsAlready = saveToCollection.some(place => {
+    return place.longitude === state.longitude &&
+           place.latitude === state.latitude;
+  });
 
   useEffect(function() {
     async function initialPlace() {
@@ -20,7 +23,6 @@ export default function DetailedPlace() {
         try {
           const request = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${state.latitude}&longitude=${state.longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,uv_index&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset&timezone=auto&forecast_days=7`);
           const data = await request.json();
-          console.log(data);
           if (data) {
               setPlaces(data);
               setStatus("success");
@@ -46,9 +48,13 @@ export default function DetailedPlace() {
   }, [saveToCollection])
 
 
-  function addToCollection(){
-    setSaveToCollection(places);
-  }
+  function addToCollection() {
+    const updatedCollection = saveToCollection
+        ? [...saveToCollection, state]
+        : [state];
+
+    setSaveToCollection(updatedCollection);
+}
 
   return (
     <main>

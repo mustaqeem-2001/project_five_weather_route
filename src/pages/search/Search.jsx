@@ -6,11 +6,11 @@ import SearchNoneFound from "./SearchNoneFound";
 import SearchLoading from "./SearchLoading";
 import Places from "./Places.jsx";
 import { SearchContext } from "../../context/SearchContext.jsx";
-
+import usePlaces from "../../hooks/usePlaces.jsx";
 
 export default function Search() {
-    const {searchInput, setSearchInput, placeholder, status, setStatus, setLoading, places, setPlaces} = useContext(SearchContext);
-
+    const {searchInput, setSearchInput, placeholder, status, setStatus, setLoading} = useContext(SearchContext);
+    const { places, setPlaces } = usePlaces();
     useEffect(() => {
         handleRequest(searchInput);
     }, [searchInput])
@@ -58,7 +58,7 @@ export default function Search() {
                 Home
             </Link>
             <h2>Choose a {searchInput}</h2>
-            <p>{places.length} places match your search.</p>
+            <p>{places?.length} places match your search.</p>
             <SearchInput searchInput={searchInput} setSearchInput={setSearchInput} placeholder={placeholder} />
 
             <section>

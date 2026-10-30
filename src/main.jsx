@@ -13,18 +13,20 @@ import { SearchProvider } from "./context/SearchContext.jsx";
 function Root() {
   return (
     <BrowserRouter>
-        <Header/>
+        
 
           <SearchProvider>
-            <Routes>
-            <Route path="/" element={<App />}/>
-            <Route path="/search" element={<Search />}/>
-            <Route path="/collection" element={<Collection />}/>
-            <Route path="/detailedPlace/:id" element={<DetailedPlace />} />
-          </Routes>
+            <Header/>
+                <Routes>
+                <Route path="/" element={<App />}/>
+                <Route path="/search" element={<Search />}/>
+                <Route path="/collection" element={<Collection />}/>
+                <Route path="/detailedPlace/:id" element={<DetailedPlace />} />
+              </Routes>
+            <Footer />
           </SearchProvider>        
 
-        <Footer />
+        
       </BrowserRouter>
   )
 }
