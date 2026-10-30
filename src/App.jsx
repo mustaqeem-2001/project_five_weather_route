@@ -1,9 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import SearchInput from "./components/SearchInput";
 import { Link } from "react-router-dom";
+import { SearchContext } from "./context/SearchContext";
 
-export default function App({searchInput, setSearchInput, placeholder, places, setPlaces, status, setStatus}) {
-    const cities = [
+export default function App() {
+  
+  const {searchInput, setSearchInput, placeholder, loading, status, setStatus, setLoading, places, setPlaces} = useContext(SearchContext);
+  
+  const cities = [
     {
       id: 2643743,
       name: "London",

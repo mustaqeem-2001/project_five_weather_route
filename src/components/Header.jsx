@@ -1,26 +1,25 @@
-import { useLocation, useParams, Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 export default function Header() {
     const location = useLocation();
-    
+    const header = location.pathname.startsWith("/detailedPlace");
     const headerConfig = {
-        "home": "YOUR DAY, OUTSIDE",
-        "success": "PLACE SEARCH",
-        "loading": "CHECKING CONDITION",
-        "error": "CONNECTION ISSUE",
-        "collection": <Link to="/search"><i className="fa-solid fa-plus"></i></Link>,
-        "empty": "PLACE SEARCH",
-        "emptyCollection": "SAVED PLACES",
-        "detailedInfo": "FORECAST",
+        "/": "YOUR DAY, OUTSIDE",
+        "/search": "PLACE SEARCH",
+        "/loading": "CHECKING CONDITION",
+        "/error": "CONNECTION ISSUE",
+        "/collection": <Link to="search"><i className="fa-solid fa-plus"></i></Link>,
+        "/empty": "PLACE SEARCH",
+        "/emptyCollection": "SAVED PLACES",
     }
-
-    const header  = location.pathname.startsWith("/detailedPlace") ? "FORECAST" : headerConfig[location.pathname]
 
     return (
         <header>
-            <i className="fa-solid fa-cloud-sun"></i>
-            <span>weather</span><span>route</span>
-            {header}
+            <div>
+                <i className="fa-solid fa-cloud-sun"></i>
+                <span>weather</span><span>route</span>
+            </div>
+            {header ? "FORECAST" : headerConfig[location.pathname]}
         </header>
     )
 }

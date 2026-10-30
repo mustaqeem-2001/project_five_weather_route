@@ -13,7 +13,7 @@ export default function({places, determineSize}) {
                 <br />
                 <div>
                     <span>{determineSize(place.feature_code)} · {place.country_code}</span>
-                    <Link to={`/detailedPlace/${place.id}`}>
+                    <Link to={`/detailedPlace/${place.id}`} state={{longitude: place.longitude, latitude: place.latitude, country: place.country, name: place.name}}>
                         Open forecast 
                         <i className="fa-solid fa-arrow-right"></i>
                     </Link>

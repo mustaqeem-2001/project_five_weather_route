@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useContext } from "react";
 import SearchInput from "../../components/SearchInput";
 import { Link } from "react-router-dom";
 import SearchError from "./SearchError";
 import SearchNoneFound from "./SearchNoneFound";
 import SearchLoading from "./SearchLoading";
 import Places from "./Places.jsx";
+import { SearchContext } from "../../context/SearchContext.jsx";
 
 
-export default function Search({searchInput, setSearchInput, placeholder, status, setStatus, setLoading, places, setPlaces}) {
+export default function Search() {
+    const {searchInput, setSearchInput, placeholder, status, setStatus, setLoading, places, setPlaces} = useContext(SearchContext);
 
     useEffect(() => {
         handleRequest(searchInput);
@@ -21,6 +23,7 @@ export default function Search({searchInput, setSearchInput, placeholder, status
             
             if (data?.results) {
                 setPlaces(data.results);
+                setStatus("success");
             }
             else {
                 setStatus("empty");
@@ -30,9 +33,9 @@ export default function Search({searchInput, setSearchInput, placeholder, status
         } catch(error) {
             setStatus("error");
         }
-        // finally {
-        //     setStatus()
-        // }
+        finally {
+            setLoading(false)
+        }
     }
 
     function determineSize(feature_code) {
