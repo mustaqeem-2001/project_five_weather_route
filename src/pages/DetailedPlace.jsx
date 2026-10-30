@@ -7,16 +7,13 @@ export default function DetailedPlace() {
   const { state } = useLocation();
   const currentTime = new Date().toLocaleTimeString();
 
-  const [saveToCollection, setSaveToCollection] = useState(() => {
-    const collectionStorage = localStorage.getItem("collection");
-    return collectionStorage ? JSON.parse(collectionStorage) : [];
-});
+  const { saveToCollection, setSaveToCollection} = useContext(SearchContext);
   
-  const placeExistsAlready = saveToCollection.some(place => {
-    return place.longitude === state.longitude &&
-           place.latitude === state.latitude;
-  });
-
+  const placeExistsAlready = saveToCollection.some(place =>
+    place.longitude === state.longitude &&
+    place.latitude === state.latitude
+  );
+  
   useEffect(function() {
     async function initialPlace() {
         setStatus("loading");
@@ -49,12 +46,8 @@ export default function DetailedPlace() {
 
 
   function addToCollection() {
-    const updatedCollection = saveToCollection
-        ? [...saveToCollection, state]
-        : [state];
-
-    setSaveToCollection(updatedCollection);
-}
+    setSaveToCollection([...saveToCollection, state]);
+  }
 
   return (
     <main>
