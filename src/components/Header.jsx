@@ -14,10 +14,11 @@ export default function Header() {
     }
 
     return (
-        <header>
-            <div>
-                <i className="fa-solid fa-cloud-sun"></i>
-                <span>weather</span><span>route</span>
+        <header className="site-header">
+            <div className="site-brand">
+            <i className="fa-solid fa-cloud-sun site-brand__mark"></i>
+            <span className="site-brand__weather">weather</span>
+            <span className="site-brand__route">route</span>
             </div>
             {header ? "FORECAST" : headerConfig[location.pathname]}
         </header>

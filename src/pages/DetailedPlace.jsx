@@ -59,68 +59,129 @@ export default function DetailedPlace() {
   }
 
   return (
-    <main>
-      <div>
-        <div>
-          <i className="fa-solid fa-location-dot"></i>
-          {state.country}
-          <h1>{state.name}</h1>
-        </div>
-        <i className="fa-regular fa-bookmark"></i>
-      </div>
-      <p>{places.daily?.time[0]} · {currentTime}</p>
-      <div>
-        <div>
+      <main className="page page--forecast">
+        <div className="forecast-place-header">
           <div>
-            <span>Current weather</span>
-            <span>Mostly cloudy</span>
+            <i className="fa-solid fa-location-dot"></i>
+            {state.country}
+            <h1 className="forecast-place-name">{state.name}</h1>
           </div>
-          <i className="fa-solid fa-cloud-sun"></i>
+          <i className="fa-regular fa-bookmark forecast-bookmark"></i>
         </div>
-        <p><span>{places.current?.temperature_2m}°</span>Feels like {places.current?.apparent_temperature}°</p>
-        
-        {placeExistsAlready ? <button>
-          <i className="fa-regular fa-bookmark"></i>
-          Saved to your favourite places
-          <span>SAVED</span> 
-        </button> : <button onClick={addToCollection}>Add to collection</button> }
-      </div>
 
-      <div>
-        <div>
-          <i className="fa-solid fa-wind"></i>
-          <p>Wind</p>
-          <p>{places.daily?.temperature_2m_max[0]} km /h</p>
-        </div>
-        <div>
-          <i className="fa-solid fa-droplet"></i>
-          <p>HUMIDITY</p>
-          <p>{places.daily?.precipitation_probability_max[0]}%</p>
-        </div>
-        <div>
-          <i className="fa-regular fa-sun"></i>
-          <p>UV INDEX</p>
-          <p>{places.daily?.weather_code[0]}</p>
-        </div>
-      </div>
+        <p className="forecast-date">{places.daily?.time[0]} · {currentTime}</p>
 
-      <div>
-        <div>
-          <div>
-            <h2>7-day outlook</h2>
-            <span>A little sun, a little rain</span>
+        <div className="weather-card">
+          <div className="weather-card__top">
+            <div>
+              <span>Current weather</span>
+              <span className="weather-card__condition">Mostly cloudy</span>
+            </div>
+            <i className="fa-solid fa-cloud-sun weather-card__icon"></i>
           </div>
-          <span>°C</span>
+          <p className="weather-temperature">
+            <span>{places.current?.temperature_2m}°</span>
+            Feels like {places.current?.apparent_temperature}°
+          </p>
+
+          {placeExistsAlready ? (
+            <button className="saved-button">
+              <i className="fa-regular fa-bookmark"></i>
+              Saved to your favourite places
+              <span>SAVED</span>
+            </button>
+          ) : (
+            <button className="primary-button save-button" onClick={addToCollection}>
+              Add to collection
+            </button>
+          )}
         </div>
-        <p>{places.daily?.time[0]} <span>UV Index: {places.daily?.weather_code[0]}</span> <span>Precipitation: {places.daily?.precipitation_probability_max[0]}%</span> <span>temperature max: {places.daily?.temperature_2m_max[0]}</span> <span>temperature low: {places.daily?.temperature_2m_min[0]}</span></p>
-        <p>{places.daily?.time[1]} <span>UV Index: {places.daily?.weather_code[1]}</span> <span>Precipitation: {places.daily?.precipitation_probability_max[1]}%</span> <span>temperature max: {places.daily?.temperature_2m_max[1]}</span> <span>temperature low: {places.daily?.temperature_2m_min[1]}</span></p>
-        <p>{places.daily?.time[2]} <span>UV Index: {places.daily?.weather_code[2]}</span> <span>Precipitation: {places.daily?.precipitation_probability_max[2]}%</span> <span>temperature max: {places.daily?.temperature_2m_max[2]}</span> <span>temperature low: {places.daily?.temperature_2m_min[2]}</span></p>
-        <p>{places.daily?.time[3]} <span>UV Index: {places.daily?.weather_code[3]}</span> <span>Precipitation: {places.daily?.precipitation_probability_max[3]}%</span> <span>temperature max: {places.daily?.temperature_2m_max[3]}</span> <span>temperature low: {places.daily?.temperature_2m_min[3]}</span></p>
-        <p>{places.daily?.time[4]} <span>UV Index: {places.daily?.weather_code[4]}</span> <span>Precipitation: {places.daily?.precipitation_probability_max[4]}%</span> <span>temperature max: {places.daily?.temperature_2m_max[4]}</span> <span>temperature low: {places.daily?.temperature_2m_min[4]}</span></p>
-        <p>{places.daily?.time[5]} <span>UV Index: {places.daily?.weather_code[5]}</span> <span>Precipitation: {places.daily?.precipitation_probability_max[5]}%</span> <span>temperature max: {places.daily?.temperature_2m_max[5]}</span> <span>temperature low: {places.daily?.temperature_2m_min[5]}</span></p>
-        <p>{places.daily?.time[6]} <span>UV Index: {places.daily?.weather_code[6]}</span> <span>Precipitation: {places.daily?.precipitation_probability_max[6]}%</span> <span>temperature max: {places.daily?.temperature_2m_max[6]}</span> <span>temperature low: {places.daily?.temperature_2m_min[6]}</span></p>
-      </div>
-      <p><i className="fa-regular fa-cloud"></i> Forecast updated just now</p>
-    </main>
-  )
+
+        <div className="weather-metrics">
+          <div className="weather-metric">
+            <i className="fa-solid fa-wind weather-metric__icon"></i>
+            <p className="weather-metric__label">Wind</p>
+            <p className="weather-metric__value">
+              {places.daily?.temperature_2m_max[0]} km /h
+            </p>
+          </div>
+          <div className="weather-metric">
+            <i className="fa-solid fa-droplet weather-metric__icon"></i>
+            <p className="weather-metric__label">HUMIDITY</p>
+            <p className="weather-metric__value">
+              {places.daily?.precipitation_probability_max[0]}%
+            </p>
+          </div>
+          <div className="weather-metric">
+            <i className="fa-regular fa-sun weather-metric__icon"></i>
+            <p className="weather-metric__label">UV INDEX</p>
+            <p className="weather-metric__value">{places.daily?.weather_code[0]}</p>
+          </div>
+        </div>
+
+        <div className="weekly-card">
+          <div className="weekly-card__header">
+            <div>
+              <h2>7-day outlook</h2>
+              <span>A little sun, a little rain</span>
+            </div>
+            <span>°C</span>
+          </div>
+
+          <p className="forecast-day">
+            <span className="forecast-day__date">{places.daily?.time[0]}</span>{" "}
+            <span>UV Index: {places.daily?.weather_code[0]}</span>{" "}
+            <span>Precipitation: {places.daily?.precipitation_probability_max[0]}%</span>{" "}
+            <span>temperature max: {places.daily?.temperature_2m_max[0]}</span>{" "}
+            <span>temperature low: {places.daily?.temperature_2m_min[0]}</span>
+          </p>
+          <p className="forecast-day">
+            <span className="forecast-day__date">{places.daily?.time[1]}</span>{" "}
+            <span>UV Index: {places.daily?.weather_code[1]}</span>{" "}
+            <span>Precipitation: {places.daily?.precipitation_probability_max[1]}%</span>{" "}
+            <span>temperature max: {places.daily?.temperature_2m_max[1]}</span>{" "}
+            <span>temperature low: {places.daily?.temperature_2m_min[1]}</span>
+          </p>
+          <p className="forecast-day">
+            <span className="forecast-day__date">{places.daily?.time[2]}</span>{" "}
+            <span>UV Index: {places.daily?.weather_code[2]}</span>{" "}
+            <span>Precipitation: {places.daily?.precipitation_probability_max[2]}%</span>{" "}
+            <span>temperature max: {places.daily?.temperature_2m_max[2]}</span>{" "}
+            <span>temperature low: {places.daily?.temperature_2m_min[2]}</span>
+          </p>
+          <p className="forecast-day">
+            <span className="forecast-day__date">{places.daily?.time[3]}</span>{" "}
+            <span>UV Index: {places.daily?.weather_code[3]}</span>{" "}
+            <span>Precipitation: {places.daily?.precipitation_probability_max[3]}%</span>{" "}
+            <span>temperature max: {places.daily?.temperature_2m_max[3]}</span>{" "}
+            <span>temperature low: {places.daily?.temperature_2m_min[3]}</span>
+          </p>
+          <p className="forecast-day">
+            <span className="forecast-day__date">{places.daily?.time[4]}</span>{" "}
+            <span>UV Index: {places.daily?.weather_code[4]}</span>{" "}
+            <span>Precipitation: {places.daily?.precipitation_probability_max[4]}%</span>{" "}
+            <span>temperature max: {places.daily?.temperature_2m_max[4]}</span>{" "}
+            <span>temperature low: {places.daily?.temperature_2m_min[4]}</span>
+          </p>
+          <p className="forecast-day">
+            <span className="forecast-day__date">{places.daily?.time[5]}</span>{" "}
+            <span>UV Index: {places.daily?.weather_code[5]}</span>{" "}
+            <span>Precipitation: {places.daily?.precipitation_probability_max[5]}%</span>{" "}
+            <span>temperature max: {places.daily?.temperature_2m_max[5]}</span>{" "}
+            <span>temperature low: {places.daily?.temperature_2m_min[5]}</span>
+          </p>
+          <p className="forecast-day">
+            <span className="forecast-day__date">{places.daily?.time[6]}</span>{" "}
+            <span>UV Index: {places.daily?.weather_code[6]}</span>{" "}
+            <span>Precipitation: {places.daily?.precipitation_probability_max[6]}%</span>{" "}
+            <span>temperature max: {places.daily?.temperature_2m_max[6]}</span>{" "}
+            <span>temperature low: {places.daily?.temperature_2m_min[6]}</span>
+          </p>
+        </div>
+
+        <p className="forecast-updated">
+          <i className="fa-regular fa-cloud"></i> Forecast updated just now
+        </p>
+      </main>
+    )
 }

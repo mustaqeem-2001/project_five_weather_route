@@ -3,16 +3,22 @@ import usePlaces from "../hooks/usePlaces";
 export default function Footer() {
     const { places, setPlaces } = usePlaces();
     return (
-        <footer>
-            <div>
-                <i className="fa-solid fa-location-dot"></i>
-                <Link to="/search" onClick={() => setPlaces([])}>
-                    Explore
-                </Link>
+        <footer className="bottom-nav">
+            <div className="bottom-nav__item">
+            <i className="fa-solid fa-location-dot"></i>
+            <Link
+                className="bottom-nav__link"
+                to="/search"
+                onClick={() => setPlaces([])}
+            >
+                Explore
+            </Link>
             </div>
-            <div>
-                <i className="fa-regular fa-bookmark"></i>
-                <Link to="/collection">Collection</Link>
+            <div className="bottom-nav__item">
+            <i className="fa-regular fa-bookmark"></i>
+            <Link className="bottom-nav__link" to="/collection">
+                Collection
+            </Link>
             </div>
         </footer>
     )

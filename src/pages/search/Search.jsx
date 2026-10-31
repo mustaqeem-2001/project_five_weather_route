@@ -52,40 +52,41 @@ export default function Search() {
         setSearchInput("");
     }
 
-    return ( 
-        <main>
-            <Link to="/">
-                <i className="fa-solid fa-arrow-left"></i>
-                Home
+    return (
+        <main className="page page--search">
+            <Link to="/" className="back-link">
+            <i className="fa-solid fa-arrow-left"></i>
+            Home
             </Link>
-            <h2>Choose a {searchInput}</h2>
-            <p>{places?.length} places match your search.</p>
+            <h2 className="page-title">Choose a {searchInput}</h2>
+            <p className="page-subtitle">{places?.length} places match your search.</p>
             <SearchInput searchInput={searchInput} setSearchInput={setSearchInput} placeholder={placeholder} />
 
-            <section>
-                <h2>PLACES</h2>
-                <span>
-                    <i className="fa-solid fa-earth-americas"></i>
-                    Search worldwide
+            <section className="search-results-section">
+            <div className="search-toolbar">
+                <h2 className="section-kicker">PLACES</h2>
+                <span className="search-worldwide">
+                <i className="fa-solid fa-earth-americas"></i>
+                Search worldwide
                 </span>
-                <div>
-                    { 
-                        status === "loading" ?
-                            <SearchLoading />
-                        : status === "error" ? 
-                            <SearchError handleTryAgain={handleTryAgain}/>
-                        : status === "idle" ?
-                            <h2>Start typing....</h2>
-                        : status === "empty" ?
-                            <SearchNoneFound handleTryAgain={handleTryAgain}/>
-                        :
-                        status === "success" ?
-                            <Places places={places} determineSize={determineSize}/>
-                        :
-                        <p>Start searching for a show</p>
-                    }
-                </div>
-                <p>Pick the right place to see its local conditions and seven-day forecast.</p>
+            </div>
+            <div className="place-result-list">
+                {
+                status === "loading" ?
+                    <SearchLoading />
+                : status === "error" ?
+                    <SearchError handleTryAgain={handleTryAgain}/>
+                : status === "idle" ?
+                    <h2>Start typing....</h2>
+                : status === "empty" ?
+                    <SearchNoneFound handleTryAgain={handleTryAgain}/>
+                : status === "success" ?
+                    <Places places={places} determineSize={determineSize}/>
+                :
+                    <p>Start searching for a show</p>
+                }
+            </div>
+            <p className="page-footnote">Pick the right place to see its local conditions and seven-day forecast.</p>
             </section>
         </main>
     )
