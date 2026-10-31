@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react"
 import { SearchContext } from "../../context/SearchContext.jsx";
 import CollectionEmpty from "./CollectionEmpty.jsx";
+import { Link } from "react-router-dom";
 
 export default function Collection() {
   const {saveToCollection, setSaveToCollection} = useContext(SearchContext);
@@ -64,10 +65,19 @@ export default function Collection() {
                       </span>
                     </div>
                     <div className="saved-place-card__actions">
-                      <span className="saved-place-card__forecast">
+                      <Link
+                        className="saved-place-card__forecast"
+                        to={`/detailedPlace/${place.latitude}_${place.longitude}`}
+                        state={{
+                          longitude: place.longitude,
+                          latitude: place.latitude,
+                          country: place.country,
+                          name: place.name
+                        }}
+                      >
                         Forecast
                         <i className="fa-solid fa-arrow-right-long"></i>
-                      </span>
+                      </Link>
                       <button
                         className="icon-button"
                         onClick={() =>

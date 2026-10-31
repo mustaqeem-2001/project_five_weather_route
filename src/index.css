@@ -1215,3 +1215,9 @@ a {
   text-decoration: none;
   cursor: pointer;
 }
+
+.saved-place-card__forecast {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
