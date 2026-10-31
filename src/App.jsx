@@ -94,7 +94,18 @@ export default function App() {
                       <span className="home-place__country">{place.country}</span>
                     </div>
                     <span className="home-place__temperature">{place.temperature}°</span>
-                    <i className="fa-solid fa-arrow-right"></i>
+                    <Link
+                      className="home-place__arrow"
+                      to={`/detailedPlace/${place.id}`}
+                      state={{
+                        longitude: place.longitude,
+                        latitude: place.latitude,
+                        country: place.country,
+                        name: place.name
+                      }}
+                    >
+                      <i className="fa-solid fa-arrow-right"></i>
+                    </Link>
                   </div>
               })
             }
@@ -107,7 +118,9 @@ export default function App() {
             <p>Your favourite places, together</p>
             <p>Save a city for the next time you check in.</p>
           </div>
-          <i className="fa-solid fa-arrow-right"></i>
+          <Link className="home-promo__arrow" to="/collection">
+            <i className="fa-solid fa-arrow-right"></i>
+          </Link>        
         </div>
       </main>
     )
