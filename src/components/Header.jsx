@@ -8,7 +8,7 @@ export default function Header() {
         "/search": "PLACE SEARCH",
         "/loading": "CHECKING CONDITION",
         "/error": "CONNECTION ISSUE",
-        "/collection": <Link to="search"><i className="fa-solid fa-plus"></i></Link>,
+        "/collection": <Link to="/search"><i className="fa-solid fa-plus"></i></Link>,
         "/empty": "PLACE SEARCH",
         "/emptyCollection": "SAVED PLACES",
     }

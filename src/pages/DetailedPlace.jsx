@@ -46,7 +46,16 @@ export default function DetailedPlace() {
 
 
   function addToCollection() {
-    setSaveToCollection([...saveToCollection, state]);
+    const newObj = {
+      name: state.name,
+      country: state.country,
+      temperature_2m: places.current?.temperature_2m,
+      longitude: state.longitude,
+      latitude: state.latitude,
+      high: places.daily?.temperature_2m_max[0],
+      low: places.daily?.temperature_2m_min[0],
+    }
+    setSaveToCollection([...saveToCollection, newObj]);
   }
 
   return (
@@ -78,9 +87,21 @@ export default function DetailedPlace() {
       </div>
 
       <div>
-        <div></div>
-        <div></div>
-        <div></div>
+        <div>
+          <i className="fa-solid fa-wind"></i>
+          <p>Wind</p>
+          <p>{places.daily?.temperature_2m_max[0]} km /h</p>
+        </div>
+        <div>
+          <i className="fa-solid fa-droplet"></i>
+          <p>HUMIDITY</p>
+          <p>{places.daily?.precipitation_probability_max[0]}%</p>
+        </div>
+        <div>
+          <i className="fa-regular fa-sun"></i>
+          <p>UV INDEX</p>
+          <p>{places.daily?.weather_code[0]}</p>
+        </div>
       </div>
 
       <div>
@@ -91,13 +112,13 @@ export default function DetailedPlace() {
           </div>
           <span>°C</span>
         </div>
-        <p>{places.daily?.time[0]} <span>UV Index: {places.daily?.weather_code[0]}</span> <span>Precipitation: {places.daily?.precipitation_probability_max[0]}</span> <span>temperature max: {places.daily?.temperature_2m_max[0]}</span> <span>temperature low: {places.daily?.temperature_2m_min[0]}</span></p>
-        <p>{places.daily?.time[1]} <span>UV Index: {places.daily?.weather_code[1]}</span> <span>Precipitation: {places.daily?.precipitation_probability_max[1]}</span> <span>temperature max: {places.daily?.temperature_2m_max[1]}</span> <span>temperature low: {places.daily?.temperature_2m_min[1]}</span></p>
-        <p>{places.daily?.time[2]} <span>UV Index: {places.daily?.weather_code[2]}</span> <span>Precipitation: {places.daily?.precipitation_probability_max[2]}</span> <span>temperature max: {places.daily?.temperature_2m_max[2]}</span> <span>temperature low: {places.daily?.temperature_2m_min[2]}</span></p>
-        <p>{places.daily?.time[3]} <span>UV Index: {places.daily?.weather_code[3]}</span> <span>Precipitation: {places.daily?.precipitation_probability_max[3]}</span> <span>temperature max: {places.daily?.temperature_2m_max[3]}</span> <span>temperature low: {places.daily?.temperature_2m_min[3]}</span></p>
-        <p>{places.daily?.time[4]} <span>UV Index: {places.daily?.weather_code[4]}</span> <span>Precipitation: {places.daily?.precipitation_probability_max[4]}</span> <span>temperature max: {places.daily?.temperature_2m_max[4]}</span> <span>temperature low: {places.daily?.temperature_2m_min[4]}</span></p>
-        <p>{places.daily?.time[5]} <span>UV Index: {places.daily?.weather_code[5]}</span> <span>Precipitation: {places.daily?.precipitation_probability_max[5]}</span> <span>temperature max: {places.daily?.temperature_2m_max[5]}</span> <span>temperature low: {places.daily?.temperature_2m_min[5]}</span></p>
-        <p>{places.daily?.time[6]} <span>UV Index: {places.daily?.weather_code[6]}</span> <span>Precipitation: {places.daily?.precipitation_probability_max[6]}</span> <span>temperature max: {places.daily?.temperature_2m_max[6]}</span> <span>temperature low: {places.daily?.temperature_2m_min[6]}</span></p>
+        <p>{places.daily?.time[0]} <span>UV Index: {places.daily?.weather_code[0]}</span> <span>Precipitation: {places.daily?.precipitation_probability_max[0]}%</span> <span>temperature max: {places.daily?.temperature_2m_max[0]}</span> <span>temperature low: {places.daily?.temperature_2m_min[0]}</span></p>
+        <p>{places.daily?.time[1]} <span>UV Index: {places.daily?.weather_code[1]}</span> <span>Precipitation: {places.daily?.precipitation_probability_max[1]}%</span> <span>temperature max: {places.daily?.temperature_2m_max[1]}</span> <span>temperature low: {places.daily?.temperature_2m_min[1]}</span></p>
+        <p>{places.daily?.time[2]} <span>UV Index: {places.daily?.weather_code[2]}</span> <span>Precipitation: {places.daily?.precipitation_probability_max[2]}%</span> <span>temperature max: {places.daily?.temperature_2m_max[2]}</span> <span>temperature low: {places.daily?.temperature_2m_min[2]}</span></p>
+        <p>{places.daily?.time[3]} <span>UV Index: {places.daily?.weather_code[3]}</span> <span>Precipitation: {places.daily?.precipitation_probability_max[3]}%</span> <span>temperature max: {places.daily?.temperature_2m_max[3]}</span> <span>temperature low: {places.daily?.temperature_2m_min[3]}</span></p>
+        <p>{places.daily?.time[4]} <span>UV Index: {places.daily?.weather_code[4]}</span> <span>Precipitation: {places.daily?.precipitation_probability_max[4]}%</span> <span>temperature max: {places.daily?.temperature_2m_max[4]}</span> <span>temperature low: {places.daily?.temperature_2m_min[4]}</span></p>
+        <p>{places.daily?.time[5]} <span>UV Index: {places.daily?.weather_code[5]}</span> <span>Precipitation: {places.daily?.precipitation_probability_max[5]}%</span> <span>temperature max: {places.daily?.temperature_2m_max[5]}</span> <span>temperature low: {places.daily?.temperature_2m_min[5]}</span></p>
+        <p>{places.daily?.time[6]} <span>UV Index: {places.daily?.weather_code[6]}</span> <span>Precipitation: {places.daily?.precipitation_probability_max[6]}%</span> <span>temperature max: {places.daily?.temperature_2m_max[6]}</span> <span>temperature low: {places.daily?.temperature_2m_min[6]}</span></p>
       </div>
       <p><i className="fa-regular fa-cloud"></i> Forecast updated just now</p>
     </main>

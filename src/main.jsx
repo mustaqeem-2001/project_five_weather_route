@@ -13,8 +13,7 @@ import { SearchProvider } from "./context/SearchContext.jsx";
 function Root() {
   return (
     <BrowserRouter>
-        
-
+    
           <SearchProvider>
             <Header/>
                 <Routes>
@@ -25,7 +24,6 @@ function Root() {
               </Routes>
             <Footer />
           </SearchProvider>        
-
         
       </BrowserRouter>
   )

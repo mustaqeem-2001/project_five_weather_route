@@ -12,7 +12,7 @@ export default function Footer() {
             </div>
             <div>
                 <i className="fa-regular fa-bookmark"></i>
-                <Link to="collection">Collection</Link>
+                <Link to="/collection">Collection</Link>
             </div>
         </footer>
     )

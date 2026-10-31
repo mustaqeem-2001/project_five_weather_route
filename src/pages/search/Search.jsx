@@ -11,6 +11,7 @@ import usePlaces from "../../hooks/usePlaces.jsx";
 export default function Search() {
     const {searchInput, setSearchInput, placeholder, status, setStatus, setLoading} = useContext(SearchContext);
     const { places, setPlaces } = usePlaces();
+    
     useEffect(() => {
         handleRequest(searchInput);
     }, [searchInput])

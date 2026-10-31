@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
+
 export default function CollectionEmpty() {
   return (
-    <main>
+    <section>
       <p>
         <i className="fa-regular fa-bookmark"></i> 
         YOUR COLLECTION
@@ -22,12 +24,12 @@ export default function CollectionEmpty() {
             <h3>Start with a city</h3>
             <p>Check the weather, then save it.</p>
           </div>
-          <Link to="search">
+          <Link to="/search">
             <i className="fa-solid fa-magnifying-glass"></i>
             Find a place
           </Link>
         </div>
       </div>
-    </main>
+    </section>
   )
 }

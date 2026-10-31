@@ -1,6 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+
 
 export default function({places, determineSize}) {
+
+    if (!Array.isArray(places) || places.length === 0) {
+        return <Navigate to="/search" replace />;
+    }
+
+
      return places.map(function(place) {
         return (
             <div key={place.id}>
